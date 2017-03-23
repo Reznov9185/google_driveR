@@ -59,10 +59,8 @@ class Gdriver < Thor
 	end
   end
 
-  desc "up FILENAME","Upload file to google drive"
-  def up
-  	tmp = Tempfile.new('foo')
-	tmp.write("hello world")
+  desc "up filename","Upload file to google drive"
+  def up filename
 
 	# Initialize the API
 	service = Google::Apis::DriveV3::DriveService.new
@@ -70,22 +68,18 @@ class Gdriver < Thor
 	service.authorization = Drive.authorize
 
 	# Upload file
-	response = service.create_file(upload_source: tmp)
-	puts response
-
-	# media = Google::APIClient::UploadIO.new(tmp, 'text/plain', 'foo.txt')
-	# file = drive.files.insert.request_schema.new({
-	#   'title' => 'My document',
-	#   'description' => 'A test document',
-	#   'mimeType' => 'text/plain'
-	# })
-	# result = client.execute(
-	#   :api_method => drive.files.insert,
-	#   :body_object => file,
-	#   :media => media,
-	#   :parameters => {
-	#     'uploadType' => 'multipart',
-	#     'alt' => 'json'})
+	file_metadata = {
+  		name: filename
+	}
+	file = service.create_file(file_metadata,
+	                                 fields: 'id',
+	                                 upload_source: filename)
+	file_metadata = {}
+	file = service.update_file(file.id,
+									file_metadata,
+	                                 fields: 'id',
+	                                 upload_source: filename)
+	puts "Uploaded File Id: #{file.id}"
   end
 end
 
