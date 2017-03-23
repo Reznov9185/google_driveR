@@ -32,9 +32,9 @@ google_driveR is terminal based tool to upload files to google drive which is de
 1. Run:
 		$ ruby gdriver
 
-2. Email
+2. Email:
 		reznov9185@gmail.com		 		
 
 ## License
 
-Copyright-2017 [reznov9185.github.io](reznov9185.github.io)
+Copyright-2017 [reznov9185.github.io](https://reznov9185.github.io)
